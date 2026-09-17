@@ -8,9 +8,16 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <a href="{{ route('admin.qr-locations.create') }}"
-               class="px-4 py-2 bg-blue-600 text-white rounded inline-block">
+                class="px-4 py-2 bg-blue-600 text-white rounded inline-block">
                 + Tambah Lokasi
             </a>
+
+            <form method="POST" action="{{ route('admin.qr-tokens.generate') }}" class="inline-block ml-2">
+                @csrf
+                <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded">
+                    Generate QR Hari Ini
+                </button>
+            </form>
 
             @if(session('success'))
                 <div class="mt-4 p-3 bg-green-100 rounded">
@@ -49,8 +56,19 @@
                                     @endif
                                 </td>
                                 <td class="p-3">
+                                    @php
+                                        $todayToken = $location->tokens()->whereDate('date', today())->first();
+                                    @endphp
+
+                                    @if($todayToken)
+                                        <a href="{{ route('admin.qr-tokens.display', $todayToken) }}"
+                                        class="text-purple-600" target="_blank">
+                                            Lihat QR
+                                        </a>
+                                    @endif
+
                                     <a href="{{ route('admin.qr-locations.edit', $location) }}"
-                                       class="text-blue-600">
+                                    class="text-blue-600 ml-2">
                                         Edit
                                     </a>
                                     <form action="{{ route('admin.qr-locations.destroy', $location) }}"

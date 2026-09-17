@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\ClassRoomController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\QrLocationController;
+use App\Http\Controllers\Admin\QrTokenController;
+use App\Http\Controllers\Admin\QrDisplayController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::resource('classes', ClassRoomController::class);
     Route::resource('students', StudentController::class);
     Route::resource('qr-locations', QrLocationController::class);
-});
+    Route::post('/qr-tokens/generate', [QrTokenController::class, 'generate'])->name('qr-tokens.generate');
+    Route::get('/qr-tokens/{qrToken}/display', [QrDisplayController::class, 'show'])->name('qr-tokens.display');
+    });
+
+    Route::get('/scan/{token}', function ($token) {
+    return 'Token QR: ' . $token;
+    })->name('qr.scan');
 
 require __DIR__.'/auth.php';
