@@ -1,52 +1,62 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl">Tambah Siswa</h2>
-    </x-slot>
+    <x-slot name="eyebrow">Data siswa</x-slot>
+    <x-slot name="header">Tambah Siswa</x-slot>
 
-    <div class="py-6">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <form method="POST" action="{{ route('admin.students.store') }}">
-                    @csrf
+    <div class="card form-card">
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.students.store') }}">
+                @csrf
 
-                    <div>
-                        <label>NIS</label>
-                        <input type="text" name="nis" value="{{ old('nis') }}"
-                               class="w-full border rounded">
-                        @error('nis')
-                            <p class="text-red-600 text-sm">{{ $message }}</p>
-                        @enderror
+                <div class="field">
+                    <label for="nis">NIS</label>
+                    <input id="nis" type="text" name="nis" value="{{ old('nis') }}" class="input @error('nis') is-invalid @enderror" autofocus>
+                    @error('nis')<ul class="field-error"><li>{{ $message }}</li></ul>@enderror
+                </div>
+
+                <div class="field">
+                    <label for="full_name">Nama Lengkap</label>
+                    <input id="full_name" type="text" name="full_name" value="{{ old('full_name') }}" class="input @error('full_name') is-invalid @enderror">
+                    @error('full_name')<ul class="field-error"><li>{{ $message }}</li></ul>@enderror
+                </div>
+
+                <div class="field">
+                    <label for="class_id">Kelas</label>
+                    <select id="class_id" name="class_id" class="input @error('class_id') is-invalid @enderror">
+                        <option value="">-- Pilih Kelas --</option>
+                        @foreach ($classes as $class)
+                            <option value="{{ $class->id }}" {{ old('class_id') == $class->id ? 'selected' : '' }}>
+                                {{ $class->class_name }}@if ($class->major) - {{ $class->major }}@endif
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('class_id')<ul class="field-error"><li>{{ $message }}</li></ul>@enderror
+                </div>
+
+                <div class="field span-2" style="margin-top:6px;padding-top:20px;border-top:1px solid var(--line-soft)">
+                    <div class="panel-title" style="font-size:17px">Akun login siswa <span class="panel-note">(opsional)</span></div>
+                    <p class="hint">Isi supaya siswa bisa masuk ke aplikasi mobile. Bisa juga diisi nanti lewat Edit.</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="siswa@sekolah.test" class="input @error('email') is-invalid @enderror" autocomplete="off">
+                        @error('email')<ul class="field-error"><li>{{ $message }}</li></ul>@enderror
                     </div>
 
-                    <div class="mt-4">
-                        <label>Nama Lengkap</label>
-                        <input type="text" name="full_name" value="{{ old('full_name') }}"
-                               class="w-full border rounded">
-                        @error('full_name')
-                            <p class="text-red-600 text-sm">{{ $message }}</p>
-                        @enderror
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" class="input @error('password') is-invalid @enderror" autocomplete="new-password">
+                        <p class="hint">Minimal 8 karakter.</p>
+                        @error('password')<ul class="field-error"><li>{{ $message }}</li></ul>@enderror
                     </div>
+                </div>
 
-                    <div class="mt-4">
-                        <label>Kelas</label>
-                        <select name="class_id" class="w-full border rounded">
-                            <option value="">-- Pilih Kelas --</option>
-                            @foreach($classes as $class)
-                                <option value="{{ $class->id }}" {{ old('class_id') == $class->id ? 'selected' : '' }}>
-                                    {{ $class->class_name }} - {{ $class->major }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('class_id')
-                            <p class="text-red-600 text-sm">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button class="mt-6 px-4 py-2 bg-blue-600 text-white rounded">
-                        Simpan
-                    </button>
-                </form>
-            </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('admin.students.index') }}" class="btn btn-ghost">Batal</a>
+                </div>
+            </form>
         </div>
     </div>
 </x-app-layout>

@@ -34,4 +34,18 @@ class QrTokenController extends Controller
 
         return back()->with('success', 'Token QR berhasil dibuat.');
     }
+
+    /**
+     * Aktifkan / nonaktifkan token QR (mis. QR hilang atau difoto orang lain).
+     * Token nonaktif otomatis ditolak oleh API scan.
+     */
+    public function toggle(QrToken $qrToken)
+    {
+        $qrToken->update(['is_active' => ! $qrToken->is_active]);
+
+        return back()->with(
+            'success',
+            $qrToken->is_active ? 'QR berhasil diaktifkan.' : 'QR berhasil dinonaktifkan.'
+        );
+    }
 }
