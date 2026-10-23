@@ -12,7 +12,19 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['"DM Sans"', ...defaultTheme.fontFamily.sans],
+                serif: ['"Playfair Display"', ...defaultTheme.fontFamily.serif],
+            },
+            colors: {
+                matcha: {
+                    cream: '#F1F4E7',
+                    pale:  '#D8E2C7',
+                    sage:  '#A7B892',
+                    moss:  '#6B7F5B',
+                    deep:  '#47563F',
+                    sand:  '#CBBF9E',
+                    warm:  '#E3DCC7',
+                },
             },
         },
     },

@@ -1,62 +1,49 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Data Kelas
-        </h2>
+    <x-slot name="eyebrow">Master data</x-slot>
+    <x-slot name="header">Data Kelas</x-slot>
+    <x-slot name="subtitle">Kelola daftar kelas dan jurusan yang dipakai pada data siswa.</x-slot>
+    <x-slot name="actions">
+        <a href="{{ route('admin.classes.create') }}" class="btn btn-primary"><x-icon name="plus" /> Tambah Kelas</a>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{ route('admin.classes.create') }}"
-               class="px-4 py-2 bg-blue-600 text-white rounded">
-                + Tambah Kelas
-            </a>
-
-            @if(session('success'))
-                <div class="mt-4 p-3 bg-green-100 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <div class="mt-4 bg-white shadow-sm rounded-lg overflow-hidden">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="p-3 text-left">No</th>
-                            <th class="p-3 text-left">Nama Kelas</th>
-                            <th class="p-3 text-left">Jurusan</th>
-                            <th class="p-3">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($classes as $class)
-                            <tr class="border-b">
-                                <td class="p-3">{{ $loop->iteration }}</td>
-                                <td class="p-3">{{ $class->class_name }}</td>
-                                <td class="p-3">{{ $class->major }}</td>
-                                <td class="p-3">
-                                    <a href="{{ route('admin.classes.edit', $class) }}"
-                                       class="text-blue-600">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('admin.classes.destroy', $class) }}"
-                                          method="POST" class="inline">
+    <div class="table-card">
+        <div class="table-wrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Kelas</th>
+                        <th>Jurusan</th>
+                        <th class="col-actions">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($classes as $class)
+                        <tr>
+                            <td class="col-no">{{ $classes->firstItem() + $loop->index }}</td>
+                            <td class="strong">{{ $class->class_name }}</td>
+                            <td>{{ $class->major ?: '-' }}</td>
+                            <td class="col-actions">
+                                <div class="row-actions">
+                                    <a href="{{ route('admin.classes.edit', $class) }}" class="btn btn-soft btn-sm"><x-icon name="edit" /> Edit</a>
+                                    <form action="{{ route('admin.classes.destroy', $class) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 ml-3"
-                                                onclick="return confirm('Hapus data?')">
-                                            Hapus
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus kelas ini? Siswa di kelas ini ikut terhapus.')">
+                                            <x-icon name="trash" /> Hapus
                                         </button>
                                     </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="p-4">
-                    {{ $classes->links() }}
-                </div>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4" class="empty"><div class="empty-title">Belum ada kelas</div>Klik &ldquo;Tambah Kelas&rdquo; untuk mulai.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+        @if ($classes->hasPages())
+            <div class="table-foot">{{ $classes->links() }}</div>
+        @endif
     </div>
 </x-app-layout>
