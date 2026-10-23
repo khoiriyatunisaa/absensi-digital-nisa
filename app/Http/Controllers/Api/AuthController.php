@@ -46,8 +46,26 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
+        $user = $request->user()->load('student.classRoom');
+        $student = $user->student;
+
         return response()->json([
-            'user' => $request->user()
+            'user' => [
+                'id'    => $user->id,
+                'name'  => $user->name,
+                'email' => $user->email,
+                'role'  => $user->role,
+            ],
+            'student' => $student ? [
+                'id'        => $student->id,
+                'nis'       => $student->nis,
+                'full_name' => $student->full_name,
+                'class'     => $student->classRoom ? [
+                    'id'         => $student->classRoom->id,
+                    'class_name' => $student->classRoom->class_name,
+                    'major'      => $student->classRoom->major,
+                ] : null,
+            ] : null,
         ]);
     }
 
