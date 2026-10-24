@@ -1,6 +1,8 @@
 @php
     $user = Auth::user();
     $initial = strtoupper(mb_substr($user->name, 0, 1));
+    $profileLink = ['route' => 'profile.edit', 'match' => 'profile.*', 'icon' => 'user', 'label' => 'Profil'];
+
     $links = $user->role === 'admin'
         ? [
             ['route' => 'dashboard',                'match' => 'dashboard',           'icon' => 'dashboard', 'label' => 'Dashboard'],
@@ -11,6 +13,8 @@
         : [
             ['route' => 'siswa.dashboard',          'match' => 'siswa.dashboard',     'icon' => 'dashboard', 'label' => 'Dashboard'],
         ];
+
+    $links[] = $profileLink;
 @endphp
 
 <aside class="sidebar" :class="{ 'is-open': nav }" aria-label="Navigasi utama">

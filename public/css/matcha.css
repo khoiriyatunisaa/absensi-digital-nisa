@@ -342,3 +342,35 @@ select.input { padding-right: 2.5rem; background-position: right .75rem center; 
   .card, .panel { box-shadow: none; border: 0; }
   .qr-frame { box-shadow: none; }
 }
+
+/* ---------- Dashboard siswa ---------- */
+.status-hero { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 30px; margin-bottom: 20px; border-radius: var(--radius); background: linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%); color: var(--cream); box-shadow: var(--shadow); }
+.status-hero .status-flower { position: absolute; right: -26px; top: -30px; width: 190px; color: var(--pale); opacity: .13; pointer-events: none; }
+.status-eyebrow { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--pale); font-weight: 700; }
+.status-title { font-family: var(--font-serif); font-size: 38px; font-weight: 500; line-height: 1.15; margin-top: 6px; }
+.status-desc { margin: 6px 0 0; color: #D7DFC8; font-size: 14.5px; }
+.status-hero.is-done { background: var(--pale); color: var(--deep); }
+.status-hero.is-done .status-eyebrow { color: var(--moss); }
+.status-hero.is-done .status-desc { color: var(--deep-2); }
+.status-hero.is-done .status-flower { color: var(--sage); opacity: .3; }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; border-top: 1px solid var(--line-soft); }
+.steps li:first-child { border-top: 0; padding-top: 0; }
+.steps strong { color: var(--deep); font-size: 14px; }
+.step-num { width: 30px; height: 30px; border-radius: 50%; background: var(--pale); color: var(--deep); display: grid; place-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+
+.tip { display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; border-radius: 16px; background: var(--warm); color: #4F4A37; font-size: 14px; line-height: 1.55; }
+.tip .icon { margin-top: 2px; color: #5A523A; }
+.tip strong { color: #3F3A2B; }
+
+@media (max-width: 560px) {
+  .status-title { font-size: 30px; }
+  .status-hero { padding: 22px; }
+}
+
+/* grid 3 kolom / 2 kolom sama besar (turun jadi 1 kolom di layar kecil) */
+.stat-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dash-grid-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .dash-grid-even { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .stat-grid-3 { grid-template-columns: 1fr; } }
